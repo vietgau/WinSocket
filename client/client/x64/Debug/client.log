@@ -1,0 +1,5 @@
+﻿  client.cpp
+C:\Users\vuhon\OneDrive - actvn.edu.vn\works\Socket\client\client\client.cpp(24,46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\vuhon\OneDrive - actvn.edu.vn\works\Socket\client\client\client.cpp(27,42): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\vuhon\OneDrive - actvn.edu.vn\works\Socket\client\client\client.cpp(15,6): warning C4101: 'iWsaCleanup': unreferenced local variable
+  client.vcxproj -> C:\Users\vuhon\OneDrive - actvn.edu.vn\works\Socket\client\x64\Debug\client.exe
