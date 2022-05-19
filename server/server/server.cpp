@@ -72,11 +72,11 @@ void Connect() {
 void Send() {
 
 	// STEP-7 Send Data to the client
-
 	int iSend;
-	char SenderBuffer[512] =  "Hello from server";
+	char SenderBuffer[512];
+	cout << "Mess to client: " << endl;
+	cin >> SenderBuffer;
 	int iSenderBuffer = strlen(SenderBuffer) + 1;
-
 	iSend = send(sAcceptSocket, SenderBuffer, iSenderBuffer, 0);
 	if (iSend == SOCKET_ERROR)
 	{
@@ -88,7 +88,7 @@ void Send() {
 
 void Recv() {
 	// STEP -8 Recv Data from Client
-
+	
 	int iRecv;
 	char RecvBuffer[512];
 	int iRecvBuffer = strlen(RecvBuffer) + 1;
@@ -101,17 +101,23 @@ void Recv() {
 	cout << "Data Received -> " << RecvBuffer << endl;
 
 }
-void Disconnect() {
+BOOL Disconnect() {
 	//STEP - 9 Close Socket
-	int iCloseSocket;
-	iCloseSocket = closesocket(TCPServerSocket);
-
-	if (iCloseSocket == SOCKET_ERROR)
+	
+	if (FALSE)
 	{
-		cout << "Closing Failed & Error No->" << WSAGetLastError() << endl;
+		int iCloseSocket;
+		iCloseSocket = closesocket(TCPServerSocket);
+
+		if (iCloseSocket == SOCKET_ERROR)
+		{
+			cout << "Closing Failed & Error No->" << WSAGetLastError() << endl;
+		}
+		cout << "Cleanup fun success" << endl;
+		system("PAUSE");
+		return FALSE;
 	}
-	cout << "Cleanup fun success" << endl;
-	system("PAUSE");
+	return TRUE;
 }
 
 int main()
@@ -120,7 +126,12 @@ int main()
 	cout << "\t\t------TCP Server-------" << endl;
 	cout << endl;
 	Connect();
-	Send();
-	Recv();
-	Disconnect();
+	while (Disconnect())
+	{
+		Recv();
+		Send();
+		
+	}
+	
+	
 }

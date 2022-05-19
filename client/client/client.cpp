@@ -6,7 +6,6 @@
 using namespace std;
 
 static SOCKET TCPClientSocket;
-
 void Connect() {
 
 	//Step-1 WSAStartup Fun------------------------------------
@@ -53,7 +52,6 @@ void Recv() {
 	int iRecv;
 	char RecvBuffer[512];
 	int iRecvBuffer = strlen(RecvBuffer) + 1;
-
 	iRecv = recv(TCPClientSocket, RecvBuffer, iRecvBuffer, 0);
 	if (iRecv == SOCKET_ERROR)
 	{
@@ -66,7 +64,9 @@ void Send() {
 	// STEP-6 Send Data to the server
 
 	int iSend;
-	char SenderBuffer[512] = "Hello from client";
+	char SenderBuffer[512] ;
+	cout << "Mess to server: " << endl;
+	cin >> SenderBuffer;
 	int iSenderBuffer = strlen(SenderBuffer) + 1;
 	iSend = send(TCPClientSocket, SenderBuffer, iSenderBuffer, 0);
 	if (iSend == SOCKET_ERROR)
@@ -76,16 +76,20 @@ void Send() {
 	cout << "Data sending success" << endl;
 
 }
-void Disconnect() {
+BOOL Disconnect() {
 	//STEP - 7 Close Socket
-
-	int iCloseSocket;
-	iCloseSocket = closesocket(TCPClientSocket);
-	if (iCloseSocket == SOCKET_ERROR)
+	if (FALSE)
 	{
-		cout << "Closing Failed & Error No->" << WSAGetLastError() << endl;
+		int iCloseSocket;
+		iCloseSocket = closesocket(TCPClientSocket);
+		if (iCloseSocket == SOCKET_ERROR)
+		{
+			cout << "Closing Failed & Error No->" << WSAGetLastError() << endl;
+		}
+		cout << "Closing Socket success" << endl;
+		return FALSE;
 	}
-	cout << "Closing Socket success" << endl;
+	return TRUE;
 
 
 	system("PAUSE");
@@ -97,8 +101,11 @@ int main()
 	cout << "\t\t------TCP Client-------" << endl;
 	cout << endl;
 	Connect();
-	Send();
-	Recv();
-	Disconnect();
+	while (Disconnect())
+	{
+		
+		Send();
+		Recv();
+	}
 	
 }

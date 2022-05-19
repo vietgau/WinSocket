@@ -1,5 +1,5 @@
 ﻿  server.cpp
 C:\Users\vuhon\OneDrive - actvn.edu.vn\works\Socket\WinSocket\server\server\server.cpp(14,6): warning C4101: 'iWsaCleanup': unreferenced local variable
-C:\Users\vuhon\OneDrive - actvn.edu.vn\works\Socket\WinSocket\server\server\server.cpp(78,46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\vuhon\OneDrive - actvn.edu.vn\works\Socket\WinSocket\server\server\server.cpp(79,46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\vuhon\OneDrive - actvn.edu.vn\works\Socket\WinSocket\server\server\server.cpp(94,42): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   server.vcxproj -> C:\Users\vuhon\OneDrive - actvn.edu.vn\works\Socket\WinSocket\server\x64\Debug\server.exe
