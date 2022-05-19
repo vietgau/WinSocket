@@ -4,13 +4,11 @@
 #pragma comment(lib,"ws2_32.lib")
 # pragma warning(disable:4996)
 using namespace std;
-int main()
-{
 
+static SOCKET TCPClientSocket;
 
-	cout << "\t\t------TCP Client-------" << endl;
-	cout << endl;
-	
+void Connect() {
+
 	//Step-1 WSAStartup Fun------------------------------------
 
 	WSADATA Winsockdata;
@@ -25,7 +23,7 @@ int main()
 
 	//Step -2 Socket Creation------------------------------------
 
-	SOCKET TCPClientSocket;
+
 	TCPClientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (TCPClientSocket == INVALID_SOCKET)
 	{
@@ -48,7 +46,8 @@ int main()
 		cout << "Connection failed & Error No ->" << WSAGetLastError() << endl;
 	}
 	cout << "Connection success" << endl;
-
+}
+void Recv() {
 	// STEP -5 Recv Data from Server
 
 	int iRecv;
@@ -62,7 +61,8 @@ int main()
 	}
 	cout << "Receive fun success" << endl;
 	cout << "Data Received -> " << RecvBuffer << endl;
-
+}
+void Send() {
 	// STEP-6 Send Data to the server
 
 	int iSend;
@@ -75,6 +75,8 @@ int main()
 	}
 	cout << "Data sending success" << endl;
 
+}
+void Disconnect() {
 	//STEP - 7 Close Socket
 
 	int iCloseSocket;
@@ -87,5 +89,16 @@ int main()
 
 
 	system("PAUSE");
-	return 0;
+}
+int main()
+{
+
+
+	cout << "\t\t------TCP Client-------" << endl;
+	cout << endl;
+	Connect();
+	Send();
+	Recv();
+	Disconnect();
+	
 }

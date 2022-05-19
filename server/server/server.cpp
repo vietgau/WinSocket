@@ -4,19 +4,14 @@
 #pragma comment(lib,"ws2_32.lib")
 # pragma warning(disable:4996)
 using namespace std;
+static SOCKET TCPServerSocket;
+static SOCKET sAcceptSocket;
 
-
-
-int main()
-{
-
-	cout << "\t\t------TCP Server-------" << endl;
-	cout << endl;
-
+void Connect() {
 	//Step-1 WSAStartup Fun------------------------------------
 	WSADATA Winsockdata;
 	int iWsaStartup;
-	int iWsaCleanup; 
+	int iWsaCleanup;
 
 	iWsaStartup = WSAStartup(MAKEWORD(2, 2), &Winsockdata);
 	if (iWsaStartup != 0)
@@ -27,8 +22,6 @@ int main()
 
 	// STEP -2 Fill the structure-------------------------------
 
-
-	
 	struct sockaddr_in TCPServerAdd;
 	TCPServerAdd.sin_family = AF_INET;
 	TCPServerAdd.sin_addr.s_addr = inet_addr("127.0.0.1");
@@ -36,12 +29,13 @@ int main()
 
 	//Step -3 Socket Creation------------------------------------
 
-	SOCKET TCPServerSocket;
+
 	TCPServerSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (TCPServerSocket == INVALID_SOCKET)
 	{
 		cout << "TCP Server Socket Creation failed" << WSAGetLastError() << endl;
 	}
+
 
 	//Step -4 bind fun------------------------------------------
 
@@ -55,7 +49,6 @@ int main()
 	cout << "Binding success" << endl;
 
 	//STEP-5 Listen fun-----------------------------------------
-
 	int iListen;
 	iListen = listen(TCPServerSocket, 2);
 	if (iListen == SOCKET_ERROR)
@@ -65,21 +58,23 @@ int main()
 	cout << "Listen fun success" << endl;
 
 	// STEP-6 Accept---------------------------------------------
-	
+
 	struct sockaddr_in TCPClientAdd;
 	int iTCPClientAdd = sizeof(TCPClientAdd);
-	SOCKET sAcceptSocket;
+	
 	sAcceptSocket = accept(TCPServerSocket, (SOCKADDR*)&TCPClientAdd, &iTCPClientAdd);
 	if (sAcceptSocket == INVALID_SOCKET)
 	{
 		cout << "Accept failed & Error No ->" << WSAGetLastError() << endl;
 	}
 	cout << "Accept fun success" << endl;
+}
+void Send() {
 
 	// STEP-7 Send Data to the client
 
 	int iSend;
-	char SenderBuffer[512] = "Hello from server";
+	char SenderBuffer[512] =  "Hello from server";
 	int iSenderBuffer = strlen(SenderBuffer) + 1;
 
 	iSend = send(sAcceptSocket, SenderBuffer, iSenderBuffer, 0);
@@ -88,7 +83,10 @@ int main()
 		cout << "Sending Failed & Error No->" << WSAGetLastError() << endl;
 	}
 	cout << "Send fun success" << endl;
+	
+}
 
+void Recv() {
 	// STEP -8 Recv Data from Client
 
 	int iRecv;
@@ -102,8 +100,8 @@ int main()
 	cout << "Receive fun success" << endl;
 	cout << "Data Received -> " << RecvBuffer << endl;
 
-
-
+}
+void Disconnect() {
 	//STEP - 9 Close Socket
 	int iCloseSocket;
 	iCloseSocket = closesocket(TCPServerSocket);
@@ -114,4 +112,15 @@ int main()
 	}
 	cout << "Cleanup fun success" << endl;
 	system("PAUSE");
+}
+
+int main()
+{
+
+	cout << "\t\t------TCP Server-------" << endl;
+	cout << endl;
+	Connect();
+	Send();
+	Recv();
+	Disconnect();
 }
