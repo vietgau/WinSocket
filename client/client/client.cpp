@@ -1,8 +1,8 @@
 //For Client
-#include<WinSock2.h>
+#include <WS2tcpip.h>
 #include<iostream>
 #pragma comment(lib,"ws2_32.lib")
-# pragma warning(disable:4996)
+
 using namespace std;
 
 static SOCKET TCPClientSocket;
@@ -32,10 +32,11 @@ void Connect() {
 	// STEP -3 Fill the structure-------------------------------
 
 	struct sockaddr_in TCPServerAdd;
+	string ipAddress = "127.0.0.1";			// IP Address of the server
 	TCPServerAdd.sin_family = AF_INET;
-	TCPServerAdd.sin_addr.s_addr = inet_addr("127.0.0.1");
-	TCPServerAdd.sin_port = htons(8000);
-
+	TCPServerAdd.sin_port = htons(54000);
+	inet_pton(AF_INET, ipAddress.c_str(), &TCPServerAdd.sin_addr);
+	
 	// STEP-4 Connect fun---------------------------------------------
 
 	int iConnect;
@@ -50,7 +51,8 @@ void Recv() {
 	// STEP -5 Recv Data from Server
 
 	int iRecv;
-	char RecvBuffer[512];
+	char* RecvBuffer;
+	RecvBuffer = (char*)(malloc(1 * sizeof(char)));
 	int iRecvBuffer = strlen(RecvBuffer) + 1;
 	iRecv = recv(TCPClientSocket, RecvBuffer, iRecvBuffer, 0);
 	if (iRecv == SOCKET_ERROR)
@@ -64,7 +66,8 @@ void Send() {
 	// STEP-6 Send Data to the server
 
 	int iSend;
-	char SenderBuffer[512] ;
+	char* SenderBuffer;
+	SenderBuffer = (char*)(malloc(1 * sizeof(char)));
 	cout << "Mess to server: " << endl;
 	cin >> SenderBuffer;
 	int iSenderBuffer = strlen(SenderBuffer) + 1;
